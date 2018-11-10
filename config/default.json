@@ -1,0 +1,6 @@
+{
+  "PORT": 3333,
+  "dbURI": "mongodb://localhost:27017/tempo",
+  "env": "development",
+  "staticPath": "../app/build"
+}
