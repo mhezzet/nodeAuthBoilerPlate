@@ -22,10 +22,6 @@ router.post('/', async (req, res) => {
   //create a new user instance
   user = new User({ ...req.body });
 
-  //hashing password before saving
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
-
   //saving user to database
   await user.save();
   //generating jwt for newuser

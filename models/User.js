@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const Joi = require('joi');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -21,9 +22,18 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+//generating auth token for a given user
 userSchema.methods.generateAuthToken = function() {
   return jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
 };
+
+//hashing password before saving to db
+userSchema.pre('save', async function(next) {
+  const salt = await bcrypt.genSalt(10);
+  console.log(this);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
 
 const User = mongoose.model('user', userSchema);
 
