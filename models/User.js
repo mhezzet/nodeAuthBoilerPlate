@@ -30,7 +30,6 @@ userSchema.methods.generateAuthToken = function() {
 //hashing password before saving to db
 userSchema.pre('save', async function(next) {
   const salt = await bcrypt.genSalt(10);
-  console.log(this);
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
